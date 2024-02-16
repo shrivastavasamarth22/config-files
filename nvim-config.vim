@@ -4,6 +4,7 @@
 :set shiftwidth=4
 :set smarttab
 :set softtabstop=4
+:set cursorline
 
 call plug#begin()
 
@@ -17,11 +18,16 @@ Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
 Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
 Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
 Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
+Plug 'https://github.com/windwp/nvim-autopairs' " Auto pairs
 
 set encoding=UTF-8
 
 call plug#end()
 
+" Set up auto pairs
+lua require('nvim-autopairs').setup{}
+
+" Key Mappings
 nnoremap <C-f> :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
@@ -31,8 +37,7 @@ nmap <F8> :TagbarToggle<CR>
 :set completeopt-=preview " For no previews
 
 :set termguicolors
-:let ayucolor="dark"
-:colorscheme ayu
+:colorscheme gotham
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
@@ -53,6 +58,8 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-inoremap <expr> <CR> pumvisible() ? coc#_select_confirm(): "\<CR>"
+inoremap <expr> <CR> pumvisible() ? coc#pum#confirm(): "\<CR>"
+
+
 
 
