@@ -19,13 +19,19 @@ Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple c
 Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
 Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
 Plug 'https://github.com/windwp/nvim-autopairs' " Auto pairs
-
+Plug 'akinsho/bufferline.nvim', {'tag': '*'} " Bufferline
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Treesitter
+Plug 'nvim-lua/plenary.nvim' " Plenary
+Plug 'nvim-telescope/telescope.nvim', {'tag': '0.1.5'} " Telescope
 set encoding=UTF-8
 
 call plug#end()
 
 " Set up auto pairs
 lua require('nvim-autopairs').setup{}
+
+" Set up bufferline
+lua require('bufferline').setup{}
 
 " Key Mappings
 nnoremap <C-f> :NERDTreeFocus<CR>
@@ -59,8 +65,3 @@ let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
 inoremap <expr> <CR> pumvisible() ? coc#pum#confirm(): "\<CR>"
-
-
-
-
-
