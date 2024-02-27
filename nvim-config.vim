@@ -25,6 +25,7 @@ Plug 'akinsho/bufferline.nvim', {'tag': '*'} " Bufferline
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Treesitter
 Plug 'nvim-lua/plenary.nvim' " Plenary
 Plug 'nvim-telescope/telescope.nvim', {'tag': '0.1.5'} " Telescope
+Plug 'lukas-reineke/indent-blankline.nvim' " Indent Blankline
 set encoding=UTF-8
 
 call plug#end()
@@ -34,6 +35,9 @@ lua require('nvim-autopairs').setup{}
 
 " Set up bufferline
 lua require('bufferline').setup{}
+
+" Set up Indent Blankline
+lua require("ibl").setup()
 
 " Key Mappings
 nnoremap <C-f> :NERDTreeFocus<CR>
