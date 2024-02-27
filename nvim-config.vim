@@ -6,6 +6,8 @@
 :set softtabstop=4
 :set cursorline
 
+let &g:guifont = 'FiraCode\ Nerd\ Font:h12'
+
 call plug#begin()
 
 Plug 'http://github.com/tpope/vim-surround' " Surrounding ysw)
@@ -37,19 +39,28 @@ lua require('bufferline').setup{}
 nnoremap <C-f> :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
-
+inoremap <expr> <CR> pumvisible() ? coc#pum#confirm(): "\<CR>"
 nmap <F8> :TagbarToggle<CR>
+nnoremap <C-p> :Telescope find_files<CR>
+nnoremap <C-g> :Telescope live_grep<CR>
+nnoremap <C-b> :Telescope buffers<CR>
+
+" Set up buffer switch shortcuts
+nnoremap <C-Right> :BufferLineCycleNext<CR>
+nnoremap <C-Left> :BufferLineCyclePrev<CR>
+nnoremap <C-x> :BufferLinePick<CR>
 
 :set completeopt-=preview " For no previews
 
 :set termguicolors
-:colorscheme gotham
+:colorscheme 256_noir
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
 " air-line 
 let g:airline_powerline_fonts = 1
+let g:airline_theme="github"
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
@@ -63,5 +74,3 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
-
-inoremap <expr> <CR> pumvisible() ? coc#pum#confirm(): "\<CR>"
