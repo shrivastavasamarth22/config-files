@@ -17,10 +17,15 @@ Set-PSReadLineKeyHandler -Chord 'Ctrl+d' -Function DeleteChar
 Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PsReadlineChordReverseHistory 'Ctrl+r'
 
+function Get-AllItems {
+  Get-ChildItem -Force
+}
+
 # Alias
 Set-Alias vim nvim
-Set-Alias ll ls
 Set-Alias g git
 Set-Alias which gcm
+Set-Alias ll Get-AllItems
 Set-Alias grep findstr
 Set-Alias touch ni
+Set-Alias cat gc
