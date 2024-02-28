@@ -53,18 +53,19 @@ nnoremap <C-b> :Telescope buffers<CR>
 nnoremap <C-Right> :BufferLineCycleNext<CR>
 nnoremap <C-Left> :BufferLineCyclePrev<CR>
 nnoremap <C-x> :BufferLinePick<CR>
+nnoremap <C-q> :BufferLinePickClose<CR>
 
 :set completeopt-=preview " For no previews
 
 :set termguicolors
-:colorscheme 256_noir
+:colorscheme minimalist
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
 " air-line 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="github"
+let g:airline_theme="minimalist"
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
@@ -78,3 +79,7 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
+
+" Declare python3 path
+let g:python3_host_prog = 'D:\Installations\Python\python.exe'
+"
