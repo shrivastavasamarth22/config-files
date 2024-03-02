@@ -6,7 +6,7 @@
 :set softtabstop=4
 :set cursorline
 
-let &g:guifont = 'FiraCode\ Nerd\ Font:h12'
+let &g:guifont = 'JetBrains\ Mono:h12'
 
 call plug#begin()
 
@@ -26,6 +26,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " Treesitter
 Plug 'nvim-lua/plenary.nvim' " Plenary
 Plug 'nvim-telescope/telescope.nvim', {'tag': '0.1.5'} " Telescope
 Plug 'lukas-reineke/indent-blankline.nvim' " Indent Blankline
+Plug 'tpope/vim-commentary' " Commenting
 set encoding=UTF-8
 
 call plug#end()
@@ -38,6 +39,9 @@ lua require('bufferline').setup{}
 
 " Set up Indent Blankline
 lua require("ibl").setup()
+
+" Set up commentary
+autocmd FileType python,sh,html,xml,yaml,yml,vim,typescript,javascript,javascriptreact,typescriptreact setlocal commentstring=#\ %s 
 
 " Key Mappings
 nnoremap <C-f> :NERDTreeFocus<CR>
@@ -54,18 +58,19 @@ nnoremap <C-Right> :BufferLineCycleNext<CR>
 nnoremap <C-Left> :BufferLineCyclePrev<CR>
 nnoremap <C-x> :BufferLinePick<CR>
 nnoremap <C-q> :BufferLinePickClose<CR>
+nnoremap <C-c> :bd<CR>
 
 :set completeopt-=preview " For no previews
 
 :set termguicolors
-:colorscheme minimalist
+:colorscheme gruvbox
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
 " air-line 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="minimalist"
+let g:airline_theme="gruvbox"
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
@@ -82,4 +87,3 @@ let g:airline_symbols.linenr = ''
 
 " Declare python3 path
 let g:python3_host_prog = 'D:\Installations\Python\python.exe'
-"
