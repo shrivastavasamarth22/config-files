@@ -1,12 +1,12 @@
 :set number
 :set autoindent
-:set tabstop=4
-:set shiftwidth=4
+:set tabstop=2
+:set shiftwidth=2
 :set smarttab
-:set softtabstop=4
+:set softtabstop=2
 :set cursorline
 
-let &g:guifont = 'JetBrains\ Mono:h12'
+let &g:guifont = 'JetBrains\ Mono:h10'
 
 call plug#begin()
 
@@ -27,9 +27,16 @@ Plug 'nvim-lua/plenary.nvim' " Plenary
 Plug 'nvim-telescope/telescope.nvim', {'tag': '0.1.5'} " Telescope
 Plug 'lukas-reineke/indent-blankline.nvim' " Indent Blankline
 Plug 'tpope/vim-commentary' " Commenting
+Plug 'rebelot/kanagawa.nvim' " Kanagawa Theme
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 set encoding=UTF-8
 
 call plug#end()
+
+set hidden
+
+" Refresh NERDTree on save
+autocmd BufWritePost * NERDTreeRefresh
 
 " Set up auto pairs
 lua require('nvim-autopairs').setup{}
@@ -42,6 +49,9 @@ lua require("ibl").setup()
 
 " Set up commentary
 autocmd FileType python,sh,html,xml,yaml,yml,vim,typescript,javascript,javascriptreact,typescriptreact setlocal commentstring=#\ %s 
+
+" Set up NERDTree
+let g:NERDTreeShowHidden=1
 
 " Key Mappings
 nnoremap <C-f> :NERDTreeFocus<CR>
@@ -63,14 +73,14 @@ nnoremap <C-c> :bd<CR>
 :set completeopt-=preview " For no previews
 
 :set termguicolors
-:colorscheme gruvbox
+:colorscheme sonokai
 
 let g:NERDTreeDirArrowExpandable="+"
 let g:NERDTreeDirArrowCollapsible="~"
 
 " air-line 
 let g:airline_powerline_fonts = 1
-let g:airline_theme="gruvbox"
+let g:airline_theme="sonokai"
 
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
@@ -87,3 +97,75 @@ let g:airline_symbols.linenr = ''
 
 " Declare python3 path
 let g:python3_host_prog = 'D:\Installations\Python\python.exe'
+
+" Use Lua code in init.vim
+lua << EOF
+local actions = require('telescope.actions')
+local action_state = require('telescope.actions.state')
+
+require('telescope').setup{
+  defaults = {
+    mappings = {
+      i = {
+        ['<Up>'] = function(prompt_bufnr)
+          actions.move_selection_previous(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+          vim.cmd('colorscheme ' .. selection.value)
+        end,
+        ['<Down>'] = function(prompt_bufnr)
+          actions.move_selection_next(prompt_bufnr)
+          local selection = action_state.get_selected_entry()
+          vim.cmd('colorscheme ' .. selection.value)
+        end,
+      },
+    },
+  },
+}
+
+function _G.colorscheme_picker()
+  local colorschemes = vim.fn.getcompletion('', 'color')
+  local finders = require('telescope.finders')
+  local pickers = require('telescope.pickers')
+  local conf = require('telescope.config').values
+
+  pickers.new({}, {
+    prompt_title = 'Colorschemes',
+    finder = finders.new_table {
+      results = colorschemes,
+      entry_maker = function(entry)
+        return {
+          value = entry,
+          display = entry,
+          ordinal = entry,
+        }
+      end,
+    },
+    sorter = conf.generic_sorter({}),
+    attach_mappings = function(prompt_bufnr, map)
+      actions.select_default:replace(function()
+        local selection = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+        vim.cmd('colorscheme ' .. selection.value)
+      end)
+
+      -- Preview the colorscheme on highlight
+      map('i', '<Up>', function(prompt_bufnr)
+        actions.move_selection_previous(prompt_bufnr)
+        local selection = action_state.get_selected_entry()
+        vim.cmd('colorscheme ' .. selection.value)
+      end)
+
+      map('i', '<Down>', function(prompt_bufnr)
+        actions.move_selection_next(prompt_bufnr)
+        local selection = action_state.get_selected_entry()
+        vim.cmd('colorscheme ' .. selection.value)
+      end)
+
+      return true
+    end,
+  }):find()
+end
+EOF
+
+" Command to open the custom picker
+command! ColorschemePicker lua _G.colorscheme_picker()
